@@ -1,0 +1,24 @@
+1. получение заказов, контрагентов
+curl --user wmsexchange:gmdn2cPdmCYC6Mg http://kukoba1.av.fvds.ru/wmsexchange/export_orders.php?id=7
+
+2. синхронизация товарных позиций и остатка, добавление новой или модификация существующей позиции проверяется код артикула
+curl --user wmsexchange:gmdn2cPdmCYC6Mg --header "Content-Type: application/json"   --request POST   --data '[{"article": "11111111111111111","name": "новый товар", "quantity": 20},{"article": "22222222222","name": "еще один товар", "quantity": 30},{"article": "333333333","name": "+ 1 товар", "quantity": 40}]'   http://kukoba1.av.fvds.ru/wmsexchange/add_position.php
+
+// пример для габаритов
+curl --user wmsexchange:gmdn2cPdmCYC6Mg --header "Content-Type: application/json"   --request POST   --data '[{"article": "30116584","weight":"100","width":"200","length":"300","height":"400"}]'   http://kukoba1.av.fvds.ru/wmsexchange/add_position.php
+
+3. получение списка статусов заказа
+curl  --user wmsexchange:gmdn2cPdmCYC6Mg http://kukoba1.av.fvds.ru/wmsexchange/order_statuses.php
+
+4. проставить статус заказа из wms в битриксе
+curl  --user wmsexchange:gmdn2cPdmCYC6Mg -d 'order_id=7&status_id=EE'   -X   POST    http://kukoba1.av.fvds.ru/wmsexchange/set_order_status.php
+
+5. обновление остатков из wms в битриксе
+curl  --user wmsexchange:gmdn2cPdmCYC6Mg --header "Content-Type: application/json"   --request POST   --data '[{"article": "30104641","count": 10},{"article": "30088075","count": 5},{"article": "30107248","count": 3}]'   http://kukoba1.av.fvds.ru/wmsexchange/shop_product_update.php
+
+// c габаритами
+curl  --user wmsexchange:gmdn2cPdmCYC6Mg --header "Content-Type: application/json"   --request POST   --data '[{"article": "30116584","weight":"100","width":"200","length":"300","height":"400","count":2370}]'   http://kukoba1.av.fvds.ru/wmsexchange/shop_product_update.php
+
+
+6. обновление трек номера по заказу из wms в битриксе
+curl  --user wmsexchange:gmdn2cPdmCYC6Mg http://kukoba1.av.fvds.ru/wmsexchange/track_number_add.php?tracking_number=123&order_id=7
